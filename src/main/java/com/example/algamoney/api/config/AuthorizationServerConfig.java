@@ -1,19 +1,26 @@
  package com.example.algamoney.api.config;
 
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
+import com.example.algamoney.api.config.token.CustomTokenEnhancer;
+
+@Profile("oauth-security")				//Classe só será carregada quando o Profile oauth for definido no aquivo application.properties
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter{		//Estamos configurando o servidor de autorização
@@ -22,7 +29,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private AuthenticationManager authenticationManager;									//esse cara vai gerenciar a autenticação pra gente
 	
 	@Autowired
-	private UserDetailsService userDetailsService;
+	//private UserDetailsService userDetailsService;									//comentado pois foi adicionado o TokenEnhancerChain
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -45,11 +52,23 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+		
+		TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+		tokenEnhancerChain.setTokenEnhancers(Arrays.asList(tokenEnhancer(), accessTokenConverter()));
+		
+//Comentado em 31/10/2019 - trocado pelo código abaixo, devido ao TokenEnhancer - ()		
+//		endpoints
+//			.tokenStore(tokenStore())										//estamos armazenando o token em memória
+//			.accessTokenConverter(accessTokenConverter())
+//			.reuseRefreshTokens(false)										//Sempre que pedir o refresh, um ooooutro refresh vai ser disponibilizado
+//			.userDetailsService(this.userDetailsService)					//Utiliza user details service para pegar usuario e senha
+//			.authenticationManager(this.authenticationManager);
+
+
 		endpoints
-			.tokenStore(tokenStore())										//estamos armazenando o token em memória
-			.accessTokenConverter(accessTokenConverter())
-			.reuseRefreshTokens(false)										//Sempre que pedir o refresh, um ooooutro refresh vai ser disponibilizado
-			.userDetailsService(this.userDetailsService)					//Utiliza user details service para pegar usuario e senha
+			.tokenStore(tokenStore())										
+			.tokenEnhancer(tokenEnhancerChain)
+			.reuseRefreshTokens(false)									
 			.authenticationManager(this.authenticationManager);
 		}
 	
@@ -66,6 +85,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Bean
 	public TokenStore tokenStore() {
 		return new JwtTokenStore(accessTokenConverter());
+	}
+	
+	public TokenEnhancer tokenEnhancer() {
+		return new CustomTokenEnhancer();
 	}
 	
 }
