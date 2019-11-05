@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 /*
  * Classe responsável por configurar o ambiente de produção
  * Chamamos esses atributos nas classes onde precisamos setar true quando estiver rodando em produção
- * Efetuamos as configurações no arquivo de profile applicatio-prod.properties
+ * Efetuamos as configurações no arquivo de profile application-prod.properties
  */
 
 @Component

@@ -25,7 +25,7 @@ public class CorsFilter implements Filter{
 	 * Classe para fazer o filtro de requisição do CORS,
 	 * Configuramos o CORS manualmente através do Filter
 	 * e setamos os parametros necessários para que a requisição de outra origem seja autorizada 
-	 * se utilizarmos o @CrossOrigin, segundo o normandes ele nao esta funcionando muito bem
+	 * se utilizarmos o @CrossOrigin, poderia resolver tudo isso, mas segundo o normandes ele nao esta funcionando muito bem
 	 */
 	
 	@Autowired
@@ -40,10 +40,10 @@ public class CorsFilter implements Filter{
 		HttpServletResponse response = (HttpServletResponse) res;
 		
 		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
-		response.setHeader("Access-Control-Allow-Credentials", "true");						//Para o cookie ser enviado				
+		response.setHeader("Access-Control-Allow-Credentials", "true");												//Para o cookie ser enviado				
 		
 		if(request.getMethod().equalsIgnoreCase("OPTIONS") && 
-				algamoneyProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {		//Verifica se é um metodo options e se a origem for localhost:8000, e "libera" a requisição
+				algamoneyProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {		//Verifica se é um metodo options e se a origem for localhost:8000 (outra origem), e "libera" a requisição
 						
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
         	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
