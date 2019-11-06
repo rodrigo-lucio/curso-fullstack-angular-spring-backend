@@ -26,7 +26,7 @@ public class LancamentoService {
 		
 		Optional<Lancamento> lancamentoEncontrado = lancamentoRepository.findById(id);
 		
-		if(lancamentoEncontrado.isEmpty()) {
+		if(!lancamentoEncontrado.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
 		
