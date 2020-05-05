@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("algamoney")			//habilita essa classe para ser seus atributos serem acessiveis nos arquivos .properties
 public class AlgamoneyApiProperty {
 
-	private String originPermitida = "http://localhost:8000";
+	//16/04/2020 - Foi alterado para 4200, analizar depois o que houve
+	private String originPermitida = "http://localhost:4200";
 
 	private final Seguranca seguranca = new Seguranca();
 

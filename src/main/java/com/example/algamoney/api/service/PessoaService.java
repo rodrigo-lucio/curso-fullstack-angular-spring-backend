@@ -40,7 +40,6 @@ public class PessoaService {
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {				
 		Pessoa pessoaSalva = buscar(codigo);		
 		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");				//Copia os dados da pessoa do parametro para pessoa Salva, ignorando o "codigo"
-		pessoaSalva.setAtivo(false);
 		return pessoaRepository.save(pessoaSalva);
 	}
 

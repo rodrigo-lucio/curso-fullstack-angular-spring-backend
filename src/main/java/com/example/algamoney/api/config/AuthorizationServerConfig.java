@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -29,7 +30,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private AuthenticationManager authenticationManager;									//esse cara vai gerenciar a autenticação pra gente
 	
 	@Autowired
-	//private UserDetailsService userDetailsService;									//comentado pois foi adicionado o TokenEnhancerChain
+	private UserDetailsService userDetailsService;									//comentado pois foi adicionado o TokenEnhancerChain
 	
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
@@ -38,8 +39,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret("$2a$10$G1j5Rf8aEEiGc/AET9BA..xRR.qCpOUzBZoJd8ygbGy6tb3jsMT9G")			//Senha encodada
 				.scopes("read", "write")														//Permissões que eu quero dar para o meu usuario, posso dar varias permissões, essas strings somos nós que definimos, e depois vamos trata-las. Não é a string que define se vai ler ou gravar, e sim o que fazemos com ela depois no tratamento
 				.authorizedGrantTypes("password", "refresh_token")								//Diz que queremos um refresh_token tbm
-				.accessTokenValiditySeconds(1800)
-				.refreshTokenValiditySeconds(3600 * 24) 										//refesh token espira em 1 dia
+				.accessTokenValiditySeconds(8)												    // token expira em 8 segundos
+				.refreshTokenValiditySeconds(11) 										//refesh token espira em 1 dia 3600 * 24
 			.and()
 				.withClient("mobile")															//Usuario de exemplo apenas para leitura		
 				.secret("$2a$10$IMY3GfMpiUjHhJVLNNQgkeB8tsw4W9OmUnQOqw9RDlI/xuBKWKaOi")			//Senha é m0b1l30
@@ -68,7 +69,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		endpoints
 			.tokenStore(tokenStore())										
 			.tokenEnhancer(tokenEnhancerChain)
-			.reuseRefreshTokens(false)									
+			.reuseRefreshTokens(false)				
+			.userDetailsService(this.userDetailsService)
 			.authenticationManager(this.authenticationManager);
 		}
 	
