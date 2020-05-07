@@ -39,7 +39,7 @@ public class CorsFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
-		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
+		response.setHeader("Access-Control-Allow-Origin", "https://result-angular.herokuapp.com");					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
 		response.setHeader("Access-Control-Allow-Credentials", "true");												//Para o cookie ser enviado				
 		
 		//if(request.getMethod().equalsIgnoreCase("OPTIONS") && 
