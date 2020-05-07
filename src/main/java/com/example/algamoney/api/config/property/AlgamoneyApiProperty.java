@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 public class AlgamoneyApiProperty {
 
 	//16/04/2020 - Foi alterado para 4200, analizar depois o que houve
-	private String originPermitida = "http://localhost:4200";
+	//private String originPermitida = "http://localhost:4200";
+	private String originPermitida;
 
 	private final Seguranca seguranca = new Seguranca();
 
