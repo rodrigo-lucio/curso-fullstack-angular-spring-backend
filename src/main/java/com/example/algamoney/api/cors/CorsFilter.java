@@ -42,8 +42,8 @@ public class CorsFilter implements Filter{
 		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
 		response.setHeader("Access-Control-Allow-Credentials", "true");												//Para o cookie ser enviado				
 		
-		if(request.getMethod().equalsIgnoreCase("OPTIONS") && 
-				algamoneyProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {		//Verifica se é um metodo options e se a origem for localhost:8000 (outra origem), e "libera" a requisição
+		//if(request.getMethod().equalsIgnoreCase("OPTIONS") && 
+		//		algamoneyProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {		//Verifica se é um metodo options e se a origem for localhost:8000 (outra origem), e "libera" a requisição
 						
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
         	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
@@ -51,10 +51,10 @@ public class CorsFilter implements Filter{
 			
 			response.setStatus(HttpServletResponse.SC_OK);			
 			
-		}else {
+		//}else {
 			//Se não, continua
-			chain.doFilter(req, res);
-		}
+		//	chain.doFilter(req, res);
+		//}
 		
 		
 	}
