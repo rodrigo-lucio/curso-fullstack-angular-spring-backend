@@ -45,7 +45,7 @@ public class CorsFilter implements Filter{
 	    response.setHeader("Access-Control-Max-Age", "3600");
 	    response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
 	    response.setStatus(HttpServletResponse.SC_OK);
-	    chain.doFilter(req, res);
+	    //chain.doFilter(req, res);
 	    
 //		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
 //		response.setHeader("Access-Control-Allow-Credentials", "true");												//Para o cookie ser enviado				
