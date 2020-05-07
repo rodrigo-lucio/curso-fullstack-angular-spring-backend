@@ -14,12 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.example.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CorsFilter implements Filter{
+public class CorsFilter implements Filter {
 	
 	/*
 	 * Classe para fazer o filtro de requisição do CORS,
@@ -31,7 +33,7 @@ public class CorsFilter implements Filter{
 	@Autowired
 	private AlgamoneyApiProperty algamoneyProperty;
 
-
+	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
 			throws IOException, ServletException {
@@ -39,12 +41,20 @@ public class CorsFilter implements Filter{
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
-		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
-		response.setHeader("Access-Control-Allow-Credentials", "true");												//Para o cookie ser enviado				
+		System.out.println("RODRIGOOOOOOOOOOOOOOOOO");
+		/*
 		
-		if(request.getMethod().equalsIgnoreCase("OPTIONS") && 
-				algamoneyProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {		//Verifica se é um metodo options e se a origem for localhost:8000 (outra origem), e "libera" a requisição
-						
+	    
+//		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
+//		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Credentials", "true");												//Para o cookie ser enviado				
+
+		
+//		if(request.getMethod().equalsIgnoreCase("OPTIONS") && 
+//				algamoneyProperty.getOriginPermitida().equals(request.getHeader("Origin"))) {		//Verifica se é um metodo options e se a origem for localhost:8000 (outra origem), e "libera" a requisição
+			
+		if(request.getMethod().equalsIgnoreCase("OPTIONS")) {
 			response.setHeader("Access-Control-Allow-Methods", "POST, GET, DELETE, PUT, OPTIONS");
         	response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept");
         	response.setHeader("Access-Control-Max-Age", "3600");
@@ -56,6 +66,33 @@ public class CorsFilter implements Filter{
 			chain.doFilter(req, res);
 		}
 		
+		*/
+		
+		  response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+	      response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+	      response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe");
+	      response.setHeader("Access-Control-Max-Age", "3600");
+	      response.setHeader("Access-Control-Allow-Credentials", "true");
+	      response.setHeader("Access-Control-Expose-Headers", "Authorization");
+	      response.addHeader("Access-Control-Expose-Headers", "responseType");
+	      response.addHeader("Access-Control-Expose-Headers", "observe");
+	      System.out.println("Request Method: "+request.getMethod());
+	      if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
+	          try {
+	              chain.doFilter(req, res);
+	          } catch(Exception e) {
+	              e.printStackTrace();
+	          }
+	      } else {
+	          System.out.println("Pre-flight");
+	          response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
+	          response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
+	          response.setHeader("Access-Control-Max-Age", "3600");
+	          response.setHeader("Access-Control-Allow-Headers", "Access-Control-Expose-Headers"+"Authorization, content-type," +
+	          "USERID"+"ROLE"+
+	                  "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType,observe");
+	          response.setStatus(HttpServletResponse.SC_OK);
+	      }		
 		
 	}
 
