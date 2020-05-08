@@ -21,7 +21,7 @@ import com.example.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class CorsFilter implements Filter,WebMvcConfigurer{
+public class CorsFilter implements Filter {
 	
 	/*
 	 * Classe para fazer o filtro de requisição do CORS,
@@ -33,11 +33,6 @@ public class CorsFilter implements Filter,WebMvcConfigurer{
 	@Autowired
 	private AlgamoneyApiProperty algamoneyProperty;
 
-	
-	@Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
-    }
 	
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
