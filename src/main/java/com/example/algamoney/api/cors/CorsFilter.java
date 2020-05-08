@@ -45,6 +45,8 @@ public class CorsFilter implements Filter,WebMvcConfigurer{
 		
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
+		
+		System.out.println("RODRIGOOOOOOOOOOOOOOOOO");
 		/*
 		
 	    
