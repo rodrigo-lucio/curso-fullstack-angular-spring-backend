@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.example.algamoney.api.model.Contato;
 import com.example.algamoney.api.model.Pessoa;
 import com.example.algamoney.api.repository.PessoaRepository;
 
@@ -37,9 +38,35 @@ public class PessoaService {
 		
 	}
 	
+	public Pessoa salvar(Pessoa pessoa) {
+		
+		//Força a configuracao da pessoa dentro do contato
+		//pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
+		//Pois foi ignorado do json o contato devido ao problema de recursividade infinita
+		//Mesma coisa que ta em baixo faz em cima
+		for(Contato contato : pessoa.getContatos()) {
+			contato.setPessoa(pessoa);
+		}
+		
+		
+		return pessoaRepository.save(pessoa);
+		
+	}
+	
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {				
 		Pessoa pessoaSalva = buscar(codigo);		
-		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");				//Copia os dados da pessoa do parametro para pessoa Salva, ignorando o "codigo"
+		
+		
+		//Para corrigir o problema que no put era passsado contatos[], que era pra ser removido		
+		pessoaSalva.getContatos().clear();
+		pessoaSalva.getContatos().addAll(pessoa.getContatos());
+		
+		for(Contato contato : pessoaSalva.getContatos()) {
+			contato.setPessoa(pessoaSalva);
+		}
+		
+		
+		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo", "contatos");				//Copia os dados da pessoa do parametro para pessoa Salva, ignorando o "codigo"
 		return pessoaRepository.save(pessoaSalva);
 	}
 

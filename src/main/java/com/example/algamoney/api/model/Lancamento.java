@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -13,8 +14,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import com.example.algamoney.api.repository.listener.LancamentoAnexoListener;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@EntityListeners(LancamentoAnexoListener.class)		//Declarando nosso listener - como se fosse trigger mas só para mostrar
 @Entity
 @Table(name = "lancamento")
 public class Lancamento {
@@ -47,10 +54,16 @@ public class Lancamento {
 	@NotNull
 	private Categoria categoria;
 	
+	@JsonIgnoreProperties("contatos")						//retira contatos de pessoa na busca de lançamentos
 	@ManyToOne()
 	@JoinColumn(name = "codigo_pessoa")
 	@NotNull
 	private Pessoa pessoa;
+	
+	private String anexo;
+	
+	@Transient 				//Nao vai para o banco
+	private String urlAnexo;
 
 	public Long getCodigo() {
 		return codigo;
@@ -124,6 +137,11 @@ public class Lancamento {
 		this.pessoa = pessoa;
 	}
 
+	@JsonIgnore //metodo não é encarado como uma propriedade, e não é retornado no json de retorno
+	public boolean isReceita() {
+		return TipoLancamento.RECEITA.equals(this.tipo);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -148,6 +166,24 @@ public class Lancamento {
 			return false;
 		return true;
 	}
+
+	public String getAnexo() {
+		return anexo;
+	}
+
+	public void setAnexo(String anexo) {
+		this.anexo = anexo;
+	}
+
+	public String getUrlAnexo() {
+		return urlAnexo;
+	}
+
+	public void setUrlAnexo(String urlAnexo) {
+		this.urlAnexo = urlAnexo;
+	}
+	
+	
 	
 	
 	

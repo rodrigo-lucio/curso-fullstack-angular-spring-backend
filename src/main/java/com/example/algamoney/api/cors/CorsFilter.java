@@ -41,10 +41,8 @@ public class CorsFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
-		System.out.println("RODRIGOOOOOOOOOOOOOOOOO");
-		/*
+		/* TRECHO ANTIGO
 		
-	    
 //		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
 //		response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 		response.setHeader("Access-Control-Allow-Origin", "*");
@@ -67,7 +65,8 @@ public class CorsFilter implements Filter {
 		}
 		
 		*/
-		
+			
+		  //------- Este trecho funciona para o Heroku	
 		  response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 	      response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 	      response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe");
@@ -76,7 +75,8 @@ public class CorsFilter implements Filter {
 	      response.setHeader("Access-Control-Expose-Headers", "Authorization");
 	      response.addHeader("Access-Control-Expose-Headers", "responseType");
 	      response.addHeader("Access-Control-Expose-Headers", "observe");
-	      System.out.println("Request Method: "+request.getMethod());
+	     // System.out.println("Request Method: "+request.getMethod());
+	      
 	      if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
 	          try {
 	              chain.doFilter(req, res);
@@ -84,7 +84,8 @@ public class CorsFilter implements Filter {
 	              e.printStackTrace();
 	          }
 	      } else {
-	          System.out.println("Pre-flight");
+	    	  
+	        //  System.out.println("Pre-flight");
 	          response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 	          response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
 	          response.setHeader("Access-Control-Max-Age", "3600");
@@ -93,7 +94,8 @@ public class CorsFilter implements Filter {
 	                  "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType,observe");
 	          response.setStatus(HttpServletResponse.SC_OK);
 	      }		
-		
+	    //------- Este trecho funciona para o Heroku	
+	      
 	}
 
 }

@@ -51,7 +51,9 @@ public class PessoaResource {
 	@PreAuthorize(PessoaRoles.CADASTRAR + " and " + Scopes.WRITE)
 	public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {		
 		
-		Pessoa pessoaSalva = pessoaRepository.save(pessoa);
+		//Substituido pelo de baixo
+		//Pessoa pessoaSalva = pessoaRepository.save(pessoa);
+		Pessoa pessoaSalva = pessoaService.salvar(pessoa);
 		
 		//Adicionado por Rodrigo em 03/10/2019 - evitado código repetido para o retornar o header location
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoa.getCodigo()));
