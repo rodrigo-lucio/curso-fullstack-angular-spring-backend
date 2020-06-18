@@ -41,6 +41,9 @@ public class CorsFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
+		System.out.println("RODRIGOOOOOOOOOOOOOOOOO");
+		System.out.println(request.getMethod());
+		
 		/* TRECHO ANTIGO
 		
 //		response.setHeader("Access-Control-Allow-Origin", algamoneyProperty.getOriginPermitida());					//Esses dois estao fora pq serão sempre enviados, em todas as requisições, para que um post ou get depois funcionem. Ou seja, para que a aplicação continue funcionando após configurar o CORS
