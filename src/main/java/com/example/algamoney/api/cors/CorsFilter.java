@@ -75,7 +75,7 @@ public class CorsFilter implements Filter {
 	      response.setHeader("Access-Control-Expose-Headers", "Authorization");
 	      response.addHeader("Access-Control-Expose-Headers", "responseType");
 	      response.addHeader("Access-Control-Expose-Headers", "observe");
-	     // System.out.println("Request Method: "+request.getMethod());
+	      System.out.println("Request Method: "+request.getMethod());
 	      
 	      if (!(request.getMethod().equalsIgnoreCase("OPTIONS"))) {
 	          try {
