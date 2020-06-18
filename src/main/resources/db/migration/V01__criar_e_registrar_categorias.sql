@@ -6,5 +6,5 @@ CREATE TABLE categoria (
 INSERT INTO categoria (nome) values ('Lazer');
 INSERT INTO categoria (nome) values ('Alimentação');
 INSERT INTO categoria (nome) values ('Mercado');
-INSERT INTO categoria (nome) values ('Farmária');
+INSERT INTO categoria (nome) values ('Farmácia');
 INSERT INTO categoria (nome) values ('Outros');	

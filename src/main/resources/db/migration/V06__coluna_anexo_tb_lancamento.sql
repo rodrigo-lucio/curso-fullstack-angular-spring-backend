@@ -1,0 +1,1 @@
+ALTER TABLE lancamento add COLUMN anexo VARCHAR(200);
