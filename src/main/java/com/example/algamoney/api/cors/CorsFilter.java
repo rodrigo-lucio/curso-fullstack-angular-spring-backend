@@ -70,7 +70,7 @@ public class CorsFilter implements Filter {
 		  response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 	      response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
 	      response.setHeader("Access-Control-Allow-Headers", "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With,observe");
-	      response.setHeader("Access-Control-Max-Age", "3600");
+	      response.setHeader("Access-Control-Max-Age", "60");
 	      response.setHeader("Access-Control-Allow-Credentials", "true");
 	      response.setHeader("Access-Control-Expose-Headers", "Authorization");
 	      response.addHeader("Access-Control-Expose-Headers", "responseType");
@@ -88,7 +88,7 @@ public class CorsFilter implements Filter {
 	        //  System.out.println("Pre-flight");
 	          response.setHeader("Access-Control-Allow-Origin", request.getHeader("Origin"));
 	          response.setHeader("Access-Control-Allow-Methods", "POST,GET,DELETE,PUT");
-	          response.setHeader("Access-Control-Max-Age", "3600");
+	          response.setHeader("Access-Control-Max-Age", "60");
 	          response.setHeader("Access-Control-Allow-Headers", "Access-Control-Expose-Headers"+"Authorization, content-type," +
 	          "USERID"+"ROLE"+
 	                  "access-control-request-headers,access-control-request-method,accept,origin,authorization,x-requested-with,responseType,observe");
