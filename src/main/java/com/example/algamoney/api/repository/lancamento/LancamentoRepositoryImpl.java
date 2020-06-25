@@ -8,6 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -18,11 +20,14 @@ import org.springframework.util.StringUtils;
 
 import com.example.algamoney.api.dto.LancamentoEstatisticaCategoria;
 import com.example.algamoney.api.dto.LancamentoEstatisticaDia;
+import com.example.algamoney.api.dto.LancamentoEstatisticaMes;
 import com.example.algamoney.api.dto.LancamentoEstatisticaPessoa;
+import com.example.algamoney.api.dto.LancamentoEstatisticaValorPessoa;
 import com.example.algamoney.api.model.Categoria_;
 import com.example.algamoney.api.model.Lancamento;
 import com.example.algamoney.api.model.Lancamento_;
 import com.example.algamoney.api.model.Pessoa_;
+import com.example.algamoney.api.model.TipoLancamento;
 import com.example.algamoney.api.repository.filter.LancamentoFilter;
 import com.example.algamoney.api.repository.projection.ResumoLancamento;
 
@@ -69,6 +74,9 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 	
 		Predicate[] predicates = criarRetricoes(lancamentoFilter, builder, root);		
 		criteria.where(predicates);
+		Order orderByVencimento = builder.asc(root.get(Lancamento_.dataVencimento));
+		criteria.orderBy(orderByVencimento);
+		
 		
 		TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
 		
@@ -227,7 +235,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		//Where dataVencimento >= primeiroDia and dataVencimento <= ultimoDia
 		criteriaQuery.where(
 				criteriaBuilder.greaterThanOrEqualTo(root.get(Lancamento_.dataVencimento), 
-						inicio),
+						inicio),	
 				criteriaBuilder.lessThanOrEqualTo(root.get(Lancamento_.dataVencimento), 
 						fim)
 				);
@@ -237,7 +245,46 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		TypedQuery<LancamentoEstatisticaPessoa> typedQuery = manager.createQuery(criteriaQuery);
 					
 		return typedQuery.getResultList();
-	} 
+	}
+
+	@Override
+	public List<LancamentoEstatisticaValorPessoa> valorPorPessoa(LocalDate inicio, LocalDate fim, TipoLancamento tipoLancamento) {
+		CriteriaBuilder criteriaBuilder = manager.getCriteriaBuilder();
+		CriteriaQuery<LancamentoEstatisticaValorPessoa> criteriaQuery = 
+				criteriaBuilder.createQuery(LancamentoEstatisticaValorPessoa.class);
+		
+		Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
+		
+		Expression sum = criteriaBuilder.sum(root.get(Lancamento_.valor));
+		
+		criteriaQuery.select(
+				criteriaBuilder.construct(
+						LancamentoEstatisticaValorPessoa.class, 
+						root.get(Lancamento_.pessoa),
+						sum));
+		
+		
+		//Where dataVencimento >= primeiroDia and dataVencimento <= ultimoDia
+		criteriaQuery.where(
+				criteriaBuilder.greaterThanOrEqualTo(root.get(Lancamento_.dataVencimento), 
+						inicio),	
+				criteriaBuilder.lessThanOrEqualTo(root.get(Lancamento_.dataVencimento), 
+						fim),
+				criteriaBuilder.equal(root.get(Lancamento_.TIPO), 
+						tipoLancamento)
+				
+				);
+		
+		criteriaQuery.groupBy(root.get(Lancamento_.pessoa));
+				
+		Order orderByValorDesc = criteriaBuilder.desc(sum);
+	           
+		criteriaQuery.orderBy(orderByValorDesc);
+
+		TypedQuery<LancamentoEstatisticaValorPessoa> typedQuery = manager.createQuery(criteriaQuery);
+					
+		return typedQuery.setMaxResults(5).getResultList();
+	}
 
 	
 	

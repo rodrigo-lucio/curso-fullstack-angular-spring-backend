@@ -8,6 +8,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -16,6 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import com.example.algamoney.api.model.Lancamento_;
 import com.example.algamoney.api.model.Pessoa;
 import com.example.algamoney.api.model.Pessoa_;
 import com.example.algamoney.api.repository.filter.PessoaFilter;
@@ -35,6 +37,10 @@ public class PessoaRepositoryImpl implements PessoaRespositoryQuery {
 		//cria as restrições
 		Predicate[] predicates = criarRetricoes(pessoaFilter, builder, root);		
 		criteria.where(predicates);
+		
+		Order orderByNome = builder.asc(root.get(Pessoa_.nome));
+		criteria.orderBy(orderByNome);
+		
 		
 		TypedQuery<Pessoa> query = manager.createQuery(criteria);
 		

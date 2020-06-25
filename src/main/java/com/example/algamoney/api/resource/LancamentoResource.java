@@ -40,10 +40,13 @@ import com.example.algamoney.api.constantes.scopes.Scopes;
 import com.example.algamoney.api.dto.Anexo;
 import com.example.algamoney.api.dto.LancamentoEstatisticaCategoria;
 import com.example.algamoney.api.dto.LancamentoEstatisticaDia;
+import com.example.algamoney.api.dto.LancamentoEstatisticaMes;
 import com.example.algamoney.api.dto.LancamentoEstatisticaPessoa;
+import com.example.algamoney.api.dto.LancamentoEstatisticaValorPessoa;
 import com.example.algamoney.api.event.RecursoCriadoEvent;
 import com.example.algamoney.api.exceptionhandler.AlgaMoneyExceptionHandler.Erro;
 import com.example.algamoney.api.model.Lancamento;
+import com.example.algamoney.api.model.TipoLancamento;
 import com.example.algamoney.api.repository.LancamentoRepository;
 import com.example.algamoney.api.repository.filter.LancamentoFilter;
 import com.example.algamoney.api.repository.projection.ResumoLancamento;
@@ -177,6 +180,18 @@ public class LancamentoResource {
 		
 		return new Anexo(nome, s3.configurarUrl(nome));
 
+	}
+	
+	@GetMapping("/estatisticas/valor-por-pessoa")
+	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
+	public List<LancamentoEstatisticaValorPessoa> valorPorPessoa() {
+		return this.lancamentoRepository.valorPorPessoa(LocalDate.of(2020, 1, 1), LocalDate.of(2020, 12, 31), TipoLancamento.DESPESA);
+	}
+	
+	@GetMapping("/estatisticas/por-ano/{ano}")
+	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
+	public List<LancamentoEstatisticaMes> porAno(@PathVariable int ano) {
+		return this.lancamentoRepository.lancamentosPorano(ano);
 	}
 
 }
