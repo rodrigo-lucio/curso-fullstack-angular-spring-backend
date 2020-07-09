@@ -41,7 +41,7 @@ public class CorsFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
-		System.out.println("RODRIGOOOOOOOOOOOOOOOOO");
+		//System.out.println("RODRIGOOOOOOOOOOOOOOOOO");
 		System.out.println(request.getMethod());
 		
 		/* TRECHO ANTIGO
