@@ -34,9 +34,9 @@ public class Pessoa {
 	@NotNull
 	private Boolean ativo;
 	
-	@JsonIgnoreProperties("pessoa")  //Ignora o json de pessoa la na classe contato - gerava uma recursividade infinita
+	@JsonIgnoreProperties("pessoa")  													// Ignora o json de pessoa na classe contato 
 	@Valid
-	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true) //orphanRemoval = remove todos os contatos caso na requisição seeja passado contatos[], o que antes não acontecia
+	@OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true) 	// orphanRemoval = remove todos os contatos caso na requisição seja passado contatos[]
 	private List<Contato> contatos;
 
 	public Long getCodigo() {

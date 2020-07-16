@@ -51,24 +51,8 @@ public class PessoaResource {
 	@PreAuthorize(PessoaRoles.CADASTRAR + " and " + Scopes.WRITE)
 	public ResponseEntity<Pessoa> criar(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {		
 		
-		//Substituido pelo de baixo
-		//Pessoa pessoaSalva = pessoaRepository.save(pessoa);
 		Pessoa pessoaSalva = pessoaService.salvar(pessoa);
-		
-		//Adicionado por Rodrigo em 03/10/2019 - evitado código repetido para o retornar o header location
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, pessoa.getCodigo()));
-		
-		//Comentado por Rodrigo em 03/10/2019
-		/*Antes era assim: 
-		 
-		 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")						 
-				.buildAndExpand(codigo).toUri();
-				response.setHeader("Location", uri.toASCIIString());
-	
-				return ResponseEntity.created(uri).body(pessoaSalva);
-		 
-		 */
-		//Trocado para o código abaixo devido a criacao da classe RecursoCriadoEvent
 		return ResponseEntity.status(HttpStatus.CREATED).body(pessoaSalva);
 	}
 	
@@ -91,7 +75,7 @@ public class PessoaResource {
 	}
 	
 	@DeleteMapping("/{codigo}")
-	@ResponseStatus(HttpStatus.NO_CONTENT) 										//NO_CONTENT="Consegui fazer oq vc pediu mas nao tenho nada para retornar"
+	@ResponseStatus(HttpStatus.NO_CONTENT) 										
 	@PreAuthorize(PessoaRoles.REMOVER + " and " + Scopes.WRITE)
 	public void remover(@PathVariable Long codigo) {		
 		

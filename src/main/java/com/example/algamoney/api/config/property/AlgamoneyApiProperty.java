@@ -10,11 +10,10 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@ConfigurationProperties("algamoney")			//habilita essa classe para ser seus atributos serem acessiveis nos arquivos .properties
+@ConfigurationProperties("algamoney")			// Habilita a classe para ser seus atributos serem acessiveis nos arquivos .properties
 public class AlgamoneyApiProperty {
 
-	//16/04/2020 - Foi alterado para 4200, analizar depois o que houve
-	//private String originPermitida = "https://result-angular.herokuapp.com";
+
 	private String originPermitida;
 
 	private final Seguranca seguranca = new Seguranca();

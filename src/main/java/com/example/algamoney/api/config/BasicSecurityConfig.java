@@ -12,13 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Profile("basic-security")
+@Profile("basic-security") 
 @EnableWebSecurity
 public class BasicSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	/*
 	 * Classe responsável por utilizar a basic security quando desejar
-	 * Definimos o profile ali em cima, para essa classe só for carregada quando o perfil basic for definido no arquivo application.properties
 	 */
 	
 	@Autowired

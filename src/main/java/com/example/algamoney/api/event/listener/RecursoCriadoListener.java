@@ -10,12 +10,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.algamoney.api.event.RecursoCriadoEvent;
 
-/*
- * Rodrigo 03/10/2019
- * Evento que dispara o header location ao realizar algum post
- * Antes era feito em toda classe o conteudo do metodo adicionarHeaderLocation
- * Evitando assim repetir o código
- */
 
 @Component
 public class RecursoCriadoListener implements ApplicationListener<RecursoCriadoEvent>{
@@ -25,6 +19,7 @@ public class RecursoCriadoListener implements ApplicationListener<RecursoCriadoE
 		HttpServletResponse response = recursoCriadoEvent.getResponse();
 		Long codigo = recursoCriadoEvent.getCodigo();
 		
+		// Seta para o header location o link para acessar o recurso cadastrado: ex: http://localhost:8080/categorias/7
 		adicionarHeaderLocation(response, codigo);
 		
 	}

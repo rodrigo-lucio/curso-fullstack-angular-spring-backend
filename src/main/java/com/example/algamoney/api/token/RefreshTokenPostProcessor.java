@@ -21,28 +21,23 @@ import com.example.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @ControllerAdvice
 public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2AccessToken>{
-/*
- * Esta classe controla a resposta da uri localhost:8080/oauth/token
- * Vamos interceptar ela para armazenar o refresh token em um cookie para ficar ainda mais seguro, e não mostraremos o mesmo na resposta da requisição
- * Esse código o normandes achou na documentação do spring
- */
 	
+	/*
+	 * Classe que controla a resposta da uri localhost:8080/oauth/token
+	 * Armazena o refresh token em um cookie
+	 */
 	@Autowired
 	private AlgamoneyApiProperty algamoneyProperty;
 	
 	@Override
 	public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
-
 		return returnType.getMethod().getName().equals("postAccessToken");
-		
-		//Só vai executar o método abaixo quando supports retornar true, ou seja, quando for um método postAcessToken
 	}
 
 	@Override
 	/*
-	 * Será executado antes de escrever o body com os tokens
-	 * Criamos um cookie com o refresh token e o adicionamos na resposta
-	 * Removemos o refresh_token da resposta
+	 * Cria o cookie com o refresh token e o adiciona na resposta
+	 * Remove o refresh_token da resposta
 	 */
 	public OAuth2AccessToken beforeBodyWrite(OAuth2AccessToken body, MethodParameter returnType,
 			MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType,
@@ -51,9 +46,9 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 		HttpServletRequest req = ((ServletServerHttpRequest) request).getServletRequest();
 		HttpServletResponse resp = ((ServletServerHttpResponse) response).getServletResponse();
 		
-		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) body;			//convertemos para defaultOauth2 pq nele existe o setRefreshToken
+		DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) body;			
 		
-		String refreshToken = body.getRefreshToken().getValue();					//Pegamos o valor do refresh token
+		String refreshToken = body.getRefreshToken().getValue();			
 		
 		adicionarRefreshTokenNoCookie(refreshToken, req, resp);
 		
@@ -69,16 +64,13 @@ public class RefreshTokenPostProcessor implements ResponseBodyAdvice<OAuth2Acces
 	private void adicionarRefreshTokenNoCookie(String refreshToken, HttpServletRequest req, HttpServletResponse resp) {
 		Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
 		
-		refreshTokenCookie.setHttpOnly(true);													//Apenas em http, ou seja, em javascript nao vai ser acessado
+		refreshTokenCookie.setHttpOnly(true);													
 		refreshTokenCookie.setSecure(algamoneyProperty.getSeguranca().isEnableHttps()); 
-		refreshTokenCookie.setPath(req.getContextPath() + "/oauth/token");						//para qual caminho esse cookie deve ser enviado
-		refreshTokenCookie.setMaxAge(2592000);													//Esse cookie espira em dois dias
+		refreshTokenCookie.setPath(req.getContextPath() + "/oauth/token");						
+		refreshTokenCookie.setMaxAge(2592000);													// Cookie expira em dois dias
 		
 		resp.addCookie(refreshTokenCookie);
 		
 	}
-
-	
-	
 
 }

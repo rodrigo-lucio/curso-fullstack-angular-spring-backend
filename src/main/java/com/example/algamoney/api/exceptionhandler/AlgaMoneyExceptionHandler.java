@@ -22,15 +22,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice																			//Faz com que a classe observe toda aplicação
-public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler {            //ResponseEntityExceptionHandler Captura execoes de respostas de entidades
+@ControllerAdvice	// Observa toda a aplicação																		
+public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler {           		 // Captura execoes de respostas de entidades
 
+	// Para ler o arquivo message.properties 
 	@Autowired
-	private MessageSource messageSource;												  //Para ler o arquivo message.properties 
+	private MessageSource messageSource;												  
 	
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,	
-			HttpHeaders headers, HttpStatus status, WebRequest request) {						//Metodo para requisicoes que foram passadas erradas, tem varios outros tipos que podemos sobreescrever
+			HttpHeaders headers, HttpStatus status, WebRequest request) {						// Metodo para requisicoes que foram passadas erradas, tem varios outros tipos que podemos sobreescrever
 		
 		String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
 		String mensagemDesenvolvedor = ex.getCause() != null ? ex.getCause().toString() : ex.toString() ;
@@ -39,9 +40,12 @@ public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler { 
 		return super.handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	
 	}
-	
+
+	/*
+	 * Captura os argumentos que não estao validos, (not null, tamanho maximo)
+	 */
 	@Override
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,	//Captura os argumentos que não estao validos, (not null, tamanho maximo)
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,	
 				HttpHeaders headers, HttpStatus status, WebRequest request) {
 			
 		List<Erro> erros = criaListaErros(ex.getBindingResult());
@@ -50,11 +54,7 @@ public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler { 
 	}
 	
 	/*
-	 * Rodrigo 03/10/2019
-	 * @ExceptionHandler diz que esse método vai tratar EmptyResultDataAccessException, ou mais de uma. 
-	 * É um método que personalizamos e não tem para sobreescrever nesta classe
-	 * Retorna isso quando vamos deletar algo e não foi encontrado no BD para deletar, ou consultar algo que nao foi encontrado
-	 * E por fim retorna 404 - Se nao implementarmos esse método apontando para esta exception, vai retornar 500
+	 * Trata códigos inexistentes em deleções/consultas e retorna 404
 	 */
 	@ExceptionHandler({EmptyResultDataAccessException.class})				
 	public ResponseEntity<Object> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex, WebRequest request) {
@@ -68,14 +68,13 @@ public class AlgaMoneyExceptionHandler extends ResponseEntityExceptionHandler { 
 	}
 	
 	/*
-	 * Rodrigo 09/10/2019
-	 * DataIntegrityViolationException, cai nesta exceção quando é passado um código que não existe em uma foreing key por exemplo
+	 * Trata integridade de dados - (códigos inexistentes em foreign keys) 
 	 */
 	@ExceptionHandler({DataIntegrityViolationException.class})
 	public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex, WebRequest request){
 		
 		String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida", null, LocaleContextHolder.getLocale());
-		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);							//Retorna a causa da execao de acordo com a biblioteca org.apache.commons- mostra certinho o código foreing key que foi errado, e não e exception em geral
+		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);							
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		
 		return super.handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);

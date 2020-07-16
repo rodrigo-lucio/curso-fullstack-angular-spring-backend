@@ -18,27 +18,28 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
-@Order(Ordered.HIGHEST_PRECEDENCE)											//prioridade alta
+@Order(Ordered.HIGHEST_PRECEDENCE)											// Prioridade alta
 public class RefreshTokenPreProcessor implements Filter{
+	
 	/*
-	 * Esta classe faz com que o refresh token seja passado automaticamente de dentro do cookie, e e não precise mais ser passado no body da requisição
-	 * Ela manipula a requisição e joga para o parametro refresh_token o que esta gravado no cookie
+	 * Adiciona o refresh token automaticamente de dentro do cookie, evitando de ser passado no body da requisição
+	 * Manipula a requisição e joga para o parametro refresh_token o que esta no cookie
 	 */
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)	//Filtro de TODAS as requisições, todas passam por aqui
 			throws IOException, ServletException {
 		
-		HttpServletRequest req = (HttpServletRequest) request;						//Pega a requisição
+		HttpServletRequest req = (HttpServletRequest) request;						
 		
-		if(req.getRequestURI().equalsIgnoreCase("/oauth/token") &&					//Verifica se a URI é do oauth
-				req.getParameter("grant_type").equals("refresh_token") &&			//AND se estamos passando um grant_type para refresh_token, 
-				req.getCookies() != null) {											//AND se tiver algum cookie
+		if(req.getRequestURI().equalsIgnoreCase("/oauth/token") &&					
+				req.getParameter("grant_type").equals("refresh_token") &&			 
+				req.getCookies() != null) {											
 			
-			for (Cookie cookie : req.getCookies()) {								//Procura o cookie com o nome que demos la no RefreshTokenPostProcessor
+			for (Cookie cookie : req.getCookies()) {								
 				if(cookie.getName().equals("refreshToken")) {
 					String refreshToken = cookie.getValue();
-					req = new MyServletRequestWrapper(req, refreshToken);	 			//Sobreescreve o parametro com o valor do refresh_token que esta no cookie
+					req = new MyServletRequestWrapper(req, refreshToken);	 			
 				}	
 			}
 			
@@ -58,7 +59,7 @@ public class RefreshTokenPreProcessor implements Filter{
 		}
 		
 		@Override
-		//Seta nos parametros o refreshToken do cookie
+		// Seta nos parametros o refreshToken do cookie
 		public Map<String, String[]> getParameterMap() {
 			ParameterMap<String, String[]> map = new ParameterMap<>(getRequest().getParameterMap());
 			map.put("refresh_token", new String[] {refreshToken});

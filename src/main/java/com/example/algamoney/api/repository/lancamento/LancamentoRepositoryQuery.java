@@ -16,7 +16,7 @@ import com.example.algamoney.api.model.TipoLancamento;
 import com.example.algamoney.api.repository.filter.LancamentoFilter;
 import com.example.algamoney.api.repository.projection.ResumoLancamento;
 
-public interface LancamentoRepositoryQuery {		//Tem que ser esse nome LancamentoRepository para o spring data jpa conseguir entender 
+public interface LancamentoRepositoryQuery {		// Padronização de nome para o spring data jpa conseguir entender 
 
 	
     public List<LancamentoEstatisticaPessoa> porPessoa(LocalDate inicio, LocalDate fim);

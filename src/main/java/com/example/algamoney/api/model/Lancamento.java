@@ -21,7 +21,7 @@ import com.example.algamoney.api.repository.listener.LancamentoAnexoListener;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@EntityListeners(LancamentoAnexoListener.class)		//Declarando nosso listener - como se fosse trigger mas só para mostrar
+@EntityListeners(LancamentoAnexoListener.class)		
 @Entity
 @Table(name = "lancamento")
 public class Lancamento {
@@ -45,16 +45,16 @@ public class Lancamento {
 	
 	private String observacao;
 	
-	@Enumerated(EnumType.STRING)										//Salva o enum como string, se fosse ordinal salvaria pelo index
+	@Enumerated(EnumType.STRING)										// Salva o enum como string, se fosse ordinal salvaria pelo index
 	@NotNull
 	private TipoLancamento tipo;
 	
-	@ManyToOne()														//@ManyToOne()	faz a foreing key
-	@JoinColumn(name = "codigo_categoria")								//Coluna que faz o relacionamento
+	@ManyToOne()														// @ManyToOne()	faz a foreing key
+	@JoinColumn(name = "codigo_categoria")								// Coluna que faz o relacionamento
 	@NotNull
 	private Categoria categoria;
 	
-	@JsonIgnoreProperties("contatos")						//retira contatos de pessoa na busca de lançamentos
+	@JsonIgnoreProperties("contatos")									// Retira contatos de pessoa na busca de lançamentos
 	@ManyToOne()
 	@JoinColumn(name = "codigo_pessoa")
 	@NotNull

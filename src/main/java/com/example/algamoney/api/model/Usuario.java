@@ -21,7 +21,7 @@ public class Usuario {
 	private String email;
 	private String senha;
 	
-	@ManyToMany(fetch = FetchType.EAGER)						//Toda vez que buscar o usuário ja traz as permissoes dele
+	@ManyToMany(fetch = FetchType.EAGER)														// Toda vez que buscar o usuário ja traz as permissoes dele
 	@JoinTable(name = "usuario_permissao", joinColumns = @JoinColumn(name = "codigo_usuario"), 
 	inverseJoinColumns = @JoinColumn(name = "codigo_permissao"))
 	private List<Permissao> permissoes;

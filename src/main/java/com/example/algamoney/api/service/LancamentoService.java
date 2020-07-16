@@ -89,11 +89,11 @@ public class LancamentoService {
 			validaPessoa(lancamento);
 		}
 		
-		//Remove caso seja passado vazio na tag
+		// Remove caso seja passado vazio na tag
 		if(StringUtils.isEmpty(lancamento.getAnexo()) && StringUtils.hasText(lancamentoSalvo.getAnexo())) {
 			s3.remover(lancamentoSalvo.getAnexo());
 			
-		//Substitui caso tiver algo na tag e o mesmo for diferente do que já existe na base
+		// Substitui caso tiver algo na tag e o mesmo for diferente do que já existe na base
 		}else if(StringUtils.hasText(lancamento.getAnexo()) && !lancamento.getAnexo().equals(lancamentoSalvo.getAnexo())) {
 			s3.substituir(lancamentoSalvo.getAnexo(), lancamento.getAnexo());
 			
@@ -134,14 +134,12 @@ public class LancamentoService {
 		
 	}
 	
-	//@Scheduled(fixedDelay = 1000 * 5)				//Executa a cada 5 segundos esse metodo
-	                 
+	// Exemplos de agendador de tarefas: 
+	//@Scheduled(fixedDelay = 1000 * 5)				//Executa a cada 5 segundos esse metodo                
 	//@Scheduled(cron = "0 52 22 * * *")		    //Especifica o horario ou dia que o metodo seja executado, nesse caso as 22:52:00, se quiser especificar os dias, deve-se colocar, CUIDAR O UTC NA CLASSE PRINCIPAL, aqui esta executando errado
-	  //segundo minuto hora - os outros sao dias que pode especificar
-	
+	 //segundo minuto hora - os outros sao dias que pode especificar
 	//@Scheduled(fixedDelay = 1000 * 60 * 30)       // Executa a cada meia hora - 
 	public void avisarSobreLancamentosVencidos() throws InterruptedException {
-		//tenho que colocar 3 horas a mais no cron
 		
 		if(logger.isDebugEnabled()) {
 			logger.debug("Preparando envio de e-mails de aviso de lançamentos vencidos.");

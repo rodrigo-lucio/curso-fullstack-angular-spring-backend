@@ -36,7 +36,7 @@ public class Mailer {
 	@Autowired
 	private LancamentoRepository repo;
 	
-	//@EventListener //Este listener escuta quando a aplicação termina de iniciar
+	//@EventListener //Listener quando a aplicação termina de iniciar, colocado apenas para teste
 	public void teste(ApplicationReadyEvent event) {
 		
 		String template = "mail/aviso-lancamentos-vencidos";
@@ -98,12 +98,12 @@ public class Mailer {
 		
 		List<String> emails = new ArrayList<String>();
 		
-		//Mais chique
-		//List<String> emails2 = destinatarios.stream().map(u -> u.getEmail()).collect(Collectors.toList());
-		
 		for(Usuario usuario : destinatarios) {
 			emails.add(usuario.getEmail());
 		}
+		
+		//Ou 
+		//List<String> emails2 = destinatarios.stream().map(u -> u.getEmail()).collect(Collectors.toList());
 		
 		String template = "mail/aviso-lancamentos-vencidos";
 		

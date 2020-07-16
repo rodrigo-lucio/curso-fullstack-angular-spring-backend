@@ -24,7 +24,9 @@ import com.amazonaws.services.s3.model.SetObjectTaggingRequest;
 import com.amazonaws.services.s3.model.Tag;
 import com.example.algamoney.api.config.property.AlgamoneyApiProperty;
 
-//Faz o upload de arquivo para o S3 da amazon
+/*
+ * Faz o upload de arquivo para o S3 da amazon
+ */
 @Component
 public class S3 {
 
@@ -69,7 +71,9 @@ public class S3 {
 		return "\\\\" + algamoneyApiProperty.getS3().getBucket() + ".s3.amazonaws.com/" + objeto;
 	}
 
-	//Deixa o arquivo permanente, remove as tags de temporaria 
+	/*
+	 * Deixa o arquivo permanente, remove as tags de temporaria 
+	 */
 	public void salvar(String objeto) {
 		SetObjectTaggingRequest setObjectTaggingRequest = new SetObjectTaggingRequest(
 			algamoneyApiProperty.getS3().getBucket(), 
@@ -79,7 +83,9 @@ public class S3 {
 		amazonS3.setObjectTagging(setObjectTaggingRequest);
 	}
 
-	//Remove o arquivo do bucket
+	/*
+	 * Remove o arquivo do bucket
+	 */
 	public void remover(String objeto) {
 		DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(algamoneyApiProperty.getS3().getBucket(), objeto);
 		amazonS3.deleteObject(deleteObjectRequest);
@@ -97,9 +103,5 @@ public class S3 {
 	private String gerarNomeUnico(String originalFilename) {
 		return UUID.randomUUID().toString() + " " + originalFilename;
 	}
-
-	
-
-
 
 }

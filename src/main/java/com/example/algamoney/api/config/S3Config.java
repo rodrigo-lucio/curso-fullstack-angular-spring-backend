@@ -17,7 +17,9 @@ import com.amazonaws.services.s3.model.lifecycle.LifecycleFilter;
 import com.amazonaws.services.s3.model.lifecycle.LifecycleTagPredicate;
 import com.example.algamoney.api.config.property.AlgamoneyApiProperty;
 
-//Realiza a configuração do S3 da amazon e cria um bucket caso não exista
+/*
+ * Realiza a configuração do S3 da amazon e cria um bucket dinamicamente caso não exista
+ */
 @Configuration
 public class S3Config {
 	
@@ -37,9 +39,6 @@ public class S3Config {
 				.build();
 	
 		
-		//Cria o Bucket caso não exista, evita criação manual na AWS - é o repositorio
-		//Diferença de bucket e simples diretorio:
-		//Consigo deixar o arquivo como temporario, e apos a pessoa confirmar, conseguimos deixar como permanente
 		if (!amazonS3.doesBucketExistV2(property.getS3().getBucket())) {
 			amazonS3.createBucket(
 					new CreateBucketRequest(property.getS3().getBucket()));

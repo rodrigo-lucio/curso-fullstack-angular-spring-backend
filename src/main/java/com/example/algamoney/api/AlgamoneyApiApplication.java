@@ -18,16 +18,16 @@ public class AlgamoneyApiApplication {
 		APPLICATION_CONTEXT = SpringApplication.run(AlgamoneyApiApplication.class, args);	
 	}
 
-	//Retorna a instancia de qualquer calsse, para utilizar em casos que não consigo utilizar injeção de dependencia
+	// Retorna a instancia de qualquer calsse, para utilizar em casos que não consigo utilizar injeção de dependencia (Config. do S3)
 	public static <T> T getBean(Class<T> type) {
 		return APPLICATION_CONTEXT.getBean(type);
 	}
 	
 	@PostConstruct
 	void started() {
-		// Campo data das consultas estava retornando um dia a menos, resolvido com isso
+		
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC-3"));
-	//	System.out.println(LocalDate.now());
+
 	}
 
 }
