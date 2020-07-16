@@ -33,7 +33,7 @@ import com.example.algamoney.api.repository.projection.ResumoLancamento;
 
 public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 
-	@PersistenceContext											//Para poder trabalhar com a consulta
+	@PersistenceContext											
 	private EntityManager manager;
 	
 	@Override
@@ -94,8 +94,8 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		
 		if(!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {			//where lower(descricao) like '%filtro%'
 			predicates.add(builder.like(
-					builder.lower(root.get(Lancamento_.descricao)), 				//metamodel criado com a biblioteca hibernate-jpamodelgen
-					"%" + lancamentoFilter.getDescricao().toLowerCase() + "%")		//OBS adicionei no pom.xml	
+					builder.lower(root.get(Lancamento_.descricao)), 				// Metamodel criado com a biblioteca hibernate-jpamodelgen
+					"%" + lancamentoFilter.getDescricao().toLowerCase() + "%")		
 					);															
 		}
 		
@@ -136,7 +136,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		Predicate[] predicates = criarRetricoes(lancamentoFilter, builder, root);
 		criteria.where(predicates);
 		
-		criteria.select(builder.count(root));				//faz o count(*) pra ver quantos registros tem
+		criteria.select(builder.count(root));		
 		
 		return manager.createQuery(criteria).getSingleResult();
 	}
@@ -150,15 +150,14 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		
 		Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
 		
-		//Mostrando pra criteria como que o LancamentoEstatistica sera construido - no caso SUM por Categoria
-		//Passa por ordem do construtor depois da classe
+		// Mostrando pra criteria como que o LancamentoEstatistica sera construido - no caso SUM por Categoria
+		// Deve passar por ordem do construtor depois da classe
 		criteriaQuery.select(
 				criteriaBuilder.construct(
 						LancamentoEstatisticaCategoria.class, 
 						root.get(Lancamento_.categoria),
 						criteriaBuilder.sum(root.get(Lancamento_.valor))));
 		
-		//Add o where 
 		LocalDate primeiroDia = mesReferencia.withDayOfMonth(1);
 		LocalDate ultimoDia = mesReferencia.withDayOfMonth(mesReferencia.lengthOfMonth());
 		
@@ -186,8 +185,6 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		
 		Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
 		
-		//Mostrando pra criteria como que o LancamentoEstatistica sera construido - no caso SUM por Categoria
-		//Passa por ordem do Csontrutor depois da classe
 		criteriaQuery.select(
 				criteriaBuilder.construct(
 						LancamentoEstatisticaDia.class, 
@@ -222,8 +219,6 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 		
 		Root<Lancamento> root = criteriaQuery.from(Lancamento.class);
 		
-		//Mostrando pra criteria como que o LancamentoEstatistica sera construido - no caso SUM por Categoria
-		//Passa por ordem do Csontrutor depois da classe
 		criteriaQuery.select(
 				criteriaBuilder.construct(
 						LancamentoEstatisticaPessoa.class, 
@@ -285,7 +280,5 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 					
 		return typedQuery.setMaxResults(5).getResultList();
 	}
-
-	
 	
 }

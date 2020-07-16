@@ -37,7 +37,7 @@ public class CategoriaResource {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
-	@PreAuthorize(CategoriaRoles.PESQUISAR + " and " + Scopes.READ)					//Define a role pra ver se o usuario possui no banco de dados e o SCOPE que foi definido no Authorization server
+	@PreAuthorize(CategoriaRoles.PESQUISAR + " and " + Scopes.READ)					
 	public List<Categoria> listar(){
 		return categoriaRepository.findAll();
 	}
@@ -45,29 +45,19 @@ public class CategoriaResource {
 	@PostMapping
 	@PreAuthorize(CategoriaRoles.CADASTRAR + " and " + Scopes.WRITE)
 	// @ResponseStatus(HttpStatus.CREATED) não preciso mais disso pois implementei no return
-	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {		//@Valid é para validar no bean validation definido no model
+	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {		// @Valid - Verifica se o model é valido
 		
 		Categoria categoriaSalva = categoriaRepository.save(categoria);
 				
-		//Adicionado por Rodrigo em 03/10/2019 - evitado código repetido para o retornar o header location
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, categoria.getCodigo()));
 		
-		//Comentado por Rodrigo em 03/10/2019
-		/*Antes era assim: 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}")						//Seta para o header location o link para acessar o recurso cadastrado: ex: http://localhost:8080/categorias/7 
-				.buildAndExpand(categoriaSalva.getCodigo()).toUri();
-		response.setHeader("Location", uri.toASCIIString());
-		
-		return ResponseEntity.created(uri).body(categoriaSalva);		
-		 */
-												
-		//Trocado para o código abaixo devido a criacao da classe RecursoCriadoEvent
-		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);                     			//Retorna o JSON da categoria para o client
+									
+		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);                     			// Retorna o JSON da categoria para o client
 	}
 	
 	@GetMapping("/{codigo}")
 	@PreAuthorize(CategoriaRoles.PESQUISAR + " and " + Scopes.READ)
-	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {							//@@PathVariable, pega o parametro passado na URI
+	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {							// @PathVariable, pega o parametro passado na URI
 		
 		Optional<Categoria> categoriaEncontrada= categoriaRepository.findById(codigo);
 		

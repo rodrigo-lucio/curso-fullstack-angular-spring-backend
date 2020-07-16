@@ -24,6 +24,7 @@ public class TokenResource {
 	 * Sobreescreve o token criado e seta o refreshtoken para vazio (logout)
 	 * Quando mandar uma requisição em tokens/revoke, sera feito o logout
 	 */
+	
 	@DeleteMapping("/revoke")
 	public void revoke(HttpServletRequest req, HttpServletResponse resp) {	
 		

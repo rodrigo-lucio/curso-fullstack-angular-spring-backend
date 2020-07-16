@@ -78,17 +78,13 @@ public class LancamentoResource {
 
 	@GetMapping
 	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
-	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) { // Pageable recebe os
-																								// parametros size= e
-																								// page=
+	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) { 																		
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
 	}
 
 	@GetMapping(params = "resumo") // Chama se tiver um parametro ?resumo na requisição
 	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
-	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) { // Pageable recebe os
-																									// parametros size=
-																									// e page=
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {																					
 		return lancamentoRepository.resumir(lancamentoFilter, pageable);
 	}
 
@@ -111,8 +107,7 @@ public class LancamentoResource {
 		return ResponseEntity.status(HttpStatus.CREATED).body(lancamentoSalvo);
 	}
 
-	@ExceptionHandler({ PessoaInexistenteOuInativaException.class }) // Faz da mesma forma que um try catch, escuta oq
-																		// estourar com essa excpetion nesta classe
+	@ExceptionHandler({ PessoaInexistenteOuInativaException.class }) // Faz da mesma forma que um try catch
 	public ResponseEntity<Object> handlePessoaInexistenteOuInativaException(PessoaInexistenteOuInativaException ex) {
 
 		String mensagemUsuario = messageSource.getMessage("pessoa.inexistente-ou-inativa", null,
@@ -171,10 +166,10 @@ public class LancamentoResource {
 	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
 	public Anexo uploadAnexo(@RequestParam MultipartFile anexo) throws IOException {
 
-	//	FileOutputStream out = new FileOutputStream("C:\\algaworks\\anexo--" + anexo.getOriginalFilename());
-
-	//	out.write(anexo.getBytes());
-	//	out.close();
+		// Exemplo para salvar na máquina	
+		//	FileOutputStream out = new FileOutputStream("C:\\algaworks\\anexo--" + anexo.getOriginalFilename());
+		//	out.write(anexo.getBytes());
+		//	out.close();
 
 		String nome = s3.salvarTemporariamente(anexo);
 		

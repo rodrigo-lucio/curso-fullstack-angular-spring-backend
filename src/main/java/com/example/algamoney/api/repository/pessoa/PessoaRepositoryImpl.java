@@ -24,7 +24,7 @@ import com.example.algamoney.api.repository.filter.PessoaFilter;
 
 public class PessoaRepositoryImpl implements PessoaRespositoryQuery {
 
-	@PersistenceContext // Para poder trabalhar com a consulta
+	@PersistenceContext 
 	private EntityManager manager;
 
 	@Override
@@ -85,7 +85,7 @@ public class PessoaRepositoryImpl implements PessoaRespositoryQuery {
 		Predicate[] predicates = criarRetricoes(pessoaFilter, builder, root);
 		criteria.where(predicates);
 		
-		criteria.select(builder.count(root));				//faz o count(*) pra ver quantos registros tem
+		criteria.select(builder.count(root));				
 		
 		return manager.createQuery(criteria).getSingleResult();
 	}

@@ -11,13 +11,12 @@ import com.example.algamoney.api.storage.S3;
 
 
 /*
- * Listener para configurar a url do lancamento, como se fosse uma trigger mas só para mostrar
- * Nao posso usar autowired aqui pq essa classe quem instancia é o hibernate
- * Por isso criamos um getBean na classe principal da API
+ * Listener para configurar a url do lancamento,
+ * Impossibilitado de utilizar autowired devido a instancia ser do Hibernate
+ * Solução: criar um getBean na classe principal da API
  */
 public class LancamentoAnexoListener {
 
-	//
 	
 	@PostLoad
 	public void postLoad(Lancamento lancamento) {

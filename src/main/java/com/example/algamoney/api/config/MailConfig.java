@@ -16,7 +16,7 @@ public class MailConfig {
 	@Autowired
 	private AlgamoneyApiProperty property;
 
-	@Bean   //Se nao colocar o @Bean da Pau na classe Mailer e manda colocar o @Bean aqui
+	@Bean  
 	public JavaMailSender javaMailSender() {
 		Properties props = new Properties();
 		props.put("mail.transport.protocol", "smtp");

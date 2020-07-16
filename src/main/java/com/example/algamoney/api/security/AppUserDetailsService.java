@@ -21,11 +21,11 @@ import com.example.algamoney.api.repository.UsuarioRepository;
 public class AppUserDetailsService implements UserDetailsService{
 
 	/*
-	 * Classe responsável por fazer a autorização pelo banco de dados, e adiciona as permissões (roles)
+	 * Classe responsável por fazer a autorização de usuários pelo banco de dados, e adiciona as permissões (roles)
 	 */
 	
 	@Autowired
-	private UsuarioRepository usuarioRepository;							//Precisamos de uma implementaçao dele, que esta em AppUserDetailsService
+	private UsuarioRepository usuarioRepository;							
 	
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -42,7 +42,7 @@ public class AppUserDetailsService implements UserDetailsService{
 		
 	}
 
-	private Collection<? extends GrantedAuthority> getPermissoes(Usuario usuario) {					//Adiciona as permissoes da tabela 
+	private Collection<? extends GrantedAuthority> getPermissoes(Usuario usuario) {					// Adiciona as permissoes da tabela 
 	
 		Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 		

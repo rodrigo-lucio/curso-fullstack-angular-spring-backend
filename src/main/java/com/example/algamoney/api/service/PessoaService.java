@@ -12,8 +12,7 @@ import com.example.algamoney.api.model.Pessoa;
 import com.example.algamoney.api.repository.PessoaRepository;
 
 /*
- * Rodrigo 07/10/2019
- * Regras de negocio de pessoa sao feitas aqui, nao fica legar fazer no resource
+ * Regras de negocio de pessoa
  */
 
 @Service
@@ -41,9 +40,6 @@ public class PessoaService {
 	public Pessoa salvar(Pessoa pessoa) {
 		
 		//Força a configuracao da pessoa dentro do contato
-		//pessoa.getContatos().forEach(c -> c.setPessoa(pessoa));
-		//Pois foi ignorado do json o contato devido ao problema de recursividade infinita
-		//Mesma coisa que ta em baixo faz em cima
 		for(Contato contato : pessoa.getContatos()) {
 			contato.setPessoa(pessoa);
 		}
@@ -66,7 +62,7 @@ public class PessoaService {
 		}
 		
 		
-		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo", "contatos");				//Copia os dados da pessoa do parametro para pessoa Salva, ignorando o "codigo"
+		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo", "contatos");				// Copia os dados da pessoa do parametro para pessoa Salva, ignorando o "codigo"
 		return pessoaRepository.save(pessoaSalva);
 	}
 
