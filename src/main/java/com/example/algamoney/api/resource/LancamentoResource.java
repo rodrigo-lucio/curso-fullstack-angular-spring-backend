@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Arrays;
 import java.util.List;
 
@@ -148,7 +150,9 @@ public class LancamentoResource {
 	@GetMapping("/estatisticas/por-pessoa")
 	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
 	public List<LancamentoEstatisticaPessoa> porPessoa() {
-		return this.lancamentoRepository.porPessoa(LocalDate.of(2020, 1, 1), LocalDate.of(2020, 6, 1));
+		return this.lancamentoRepository.porPessoa(
+				LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), 
+				LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()));
 	}
 
 	@GetMapping("relatorios/por-pessoa")
@@ -180,7 +184,10 @@ public class LancamentoResource {
 	@GetMapping("/estatisticas/valor-por-pessoa")
 	@PreAuthorize(LancamentoRoles.PESQUISAR + " and " + Scopes.READ)
 	public List<LancamentoEstatisticaValorPessoa> valorPorPessoa() {
-		return this.lancamentoRepository.valorPorPessoa(LocalDate.of(2020, 1, 1), LocalDate.of(2020, 12, 31), TipoLancamento.DESPESA);
+		return this.lancamentoRepository.valorPorPessoa(
+				LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), 
+				LocalDate.now().with(TemporalAdjusters.lastDayOfMonth()), 
+				TipoLancamento.DESPESA);
 	}
 	
 	@GetMapping("/estatisticas/por-ano/{ano}")

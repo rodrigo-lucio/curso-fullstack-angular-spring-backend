@@ -74,7 +74,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery{
 	
 		Predicate[] predicates = criarRetricoes(lancamentoFilter, builder, root);		
 		criteria.where(predicates);
-		Order orderByVencimento = builder.asc(root.get(Lancamento_.dataVencimento));
+		Order orderByVencimento = builder.desc(root.get(Lancamento_.dataVencimento));
 		criteria.orderBy(orderByVencimento);
 		
 		
