@@ -20,9 +20,10 @@ import org.springframework.util.StringUtils;
 import com.example.algamoney.api.model.Lancamento_;
 import com.example.algamoney.api.model.Pessoa;
 import com.example.algamoney.api.model.Pessoa_;
+import com.example.algamoney.api.repository.filter.Paginacao;
 import com.example.algamoney.api.repository.filter.PessoaFilter;
 
-public class PessoaRepositoryImpl implements PessoaRespositoryQuery {
+public class PessoaRepositoryImpl extends Paginacao implements PessoaRespositoryQuery {
 
 	@PersistenceContext 
 	private EntityManager manager;
@@ -63,17 +64,6 @@ public class PessoaRepositoryImpl implements PessoaRespositoryQuery {
 		
 		return predicates.toArray(new Predicate[predicates.size()]); 
 
-	}
-	
-	private void adicionarRestricoesPaginacao(TypedQuery<?> query, Pageable pageable) {
-		
-		int paginaAtual = pageable.getPageNumber();
-		int totalRegistrosPorPagina = pageable.getPageSize();
-		int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
-		
-		query.setFirstResult(primeiroRegistroDaPagina);
-		query.setMaxResults(totalRegistrosPorPagina);
-		
 	}
 	
 	private Long total(PessoaFilter pessoaFilter) {
