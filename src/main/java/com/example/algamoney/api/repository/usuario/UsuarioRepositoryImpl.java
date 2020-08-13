@@ -49,14 +49,14 @@ public class UsuarioRepositoryImpl extends Paginacao implements UsuarioRepositor
 		
 		adicionarRestricoesPaginacao(query, pageable);
 		
-		Long totalUsuarios = totaoUsuarios(usuario, builder);
+		Long totalUsuarios = totalUsuarios(usuario, builder);
 		
 		return new PageImpl<>(query.getResultList(), pageable, totalUsuarios);
 		
 	}
 
 
-	private Long totaoUsuarios(String usuario, CriteriaBuilder builder) {
+	private Long totalUsuarios(String usuario, CriteriaBuilder builder) {
 		CriteriaQuery<Long> criteriaCount = builder.createQuery(Long.class);
 		Root<Usuario> rootCount = criteriaCount.from(Usuario.class);
 		Predicate[] predicatesCount = criaFiltros(usuario, builder, rootCount);
@@ -98,7 +98,7 @@ public class UsuarioRepositoryImpl extends Paginacao implements UsuarioRepositor
 		
 		TypedQuery<Usuario> query = manager.createQuery(criteriaQuery);		
 		adicionarRestricoesPaginacao(query, pageable);		
-		Long totalUsuarios = totaoUsuarios(usuario, builder);
+		Long totalUsuarios = totalUsuarios(usuario, builder);
 		
 		return new PageImpl<>(query.getResultList(), pageable, totalUsuarios);
 	}
