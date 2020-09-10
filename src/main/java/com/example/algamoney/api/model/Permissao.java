@@ -1,5 +1,6 @@
 package com.example.algamoney.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -13,6 +14,9 @@ public class Permissao {
 	 
 	private String descricao;
 	
+	@Column(name = "tipo_permissao")
+	private Long tipoPermissao;
+	
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -25,7 +29,13 @@ public class Permissao {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
+	public Long getTipoPermissao() {
+		return tipoPermissao;
+	}
+	public void setTipoPermissao(Long tipoPermissao) {
+		this.tipoPermissao = tipoPermissao;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

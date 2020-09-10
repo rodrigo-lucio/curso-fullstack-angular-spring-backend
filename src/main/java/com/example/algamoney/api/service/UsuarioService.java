@@ -44,6 +44,10 @@ public class UsuarioService {
 			usuario.setAtivo(true);
 		}
 
+		if(usuario.getSenha() == null) {
+			usuario.setSenha("123mudar");
+		}
+		
 		String novaSenha = converteSenha(usuario.getSenha());
 		usuario.setSenha(novaSenha);
 
@@ -61,7 +65,15 @@ public class UsuarioService {
 
 		Usuario usuarioSalvo = buscarPorCodigo(codigo);
 
-		if (usuario.getSenha() == null) {
+		if (usuario.getNome() == null) {
+			usuario.setNome(usuarioSalvo.getNome());
+		}
+				
+		if (usuario.getEmail() == null) {
+			usuario.setEmail(usuarioSalvo.getEmail());
+		}
+		
+		if (usuario.getSenha() == null || usuario.getSenha().equals(usuarioSalvo.getSenha())) {
 			usuario.setSenha(usuarioSalvo.getSenha());
 		} else {
 			String novaSenha = converteSenha(usuario.getSenha());

@@ -38,6 +38,10 @@ public class AppUserDetailsService implements UserDetailsService{
 		
 		Usuario usuarioEncontrado = usuarios.get(0);
 		
+		if(!usuarioEncontrado.getAtivo()) {
+			throw new UsernameNotFoundException("Usuário inativo");
+		}
+		
 		return new UsuarioSistema(usuarioEncontrado, getPermissoes(usuarioEncontrado));
 		
 	}

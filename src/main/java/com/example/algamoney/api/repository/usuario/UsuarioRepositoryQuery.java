@@ -10,6 +10,6 @@ import com.example.algamoney.api.repository.projection.ResumoUsuario;
 public interface UsuarioRepositoryQuery {
 
 	public Page<Usuario> filtrar(String usuario, Pageable pageable);
-	public Page<ResumoUsuario> resumir(String usuario, Pageable pageable);
+	public Page<ResumoUsuario> resumir(String usuario, Boolean ativo, Pageable pageable);
 	
 }

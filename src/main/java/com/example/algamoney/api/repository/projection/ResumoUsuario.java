@@ -6,13 +6,16 @@ public class ResumoUsuario {
 	private String nome;
 	private String email;
 	private String senha;
+	private Boolean ativo;
 	
-	public ResumoUsuario(Long codigo, String nome, String email, String senha) {
+	
+	public ResumoUsuario(Long codigo, String nome, String email, String senha, Boolean ativo) {
 		super();
 		this.codigo = codigo;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+		this.ativo = ativo;
 	}
 	public Long getCodigo() {
 		return codigo;
@@ -38,7 +41,14 @@ public class ResumoUsuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	public Boolean getAtivo() {
+		return ativo;
+	}
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 	
+
 	
 	
 }

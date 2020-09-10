@@ -62,8 +62,10 @@ public class UsuarioResource {
 	
 	@GetMapping(params = "resumo")
 	@PreAuthorize(UsuarioRoles.PESQUISAR + " and " + Scopes.READ)
-	public Page<ResumoUsuario> resumir(@RequestParam(required = false) String usuario, Pageable pageable){
-		return usuarioRepository.resumir(usuario, pageable);
+	public Page<ResumoUsuario> resumir(@RequestParam(required = false) String usuario, 
+			@RequestParam(required = false) Boolean ativo,
+			Pageable pageable){
+		return usuarioRepository.resumir(usuario, ativo, pageable);
 	}
 		
 	
