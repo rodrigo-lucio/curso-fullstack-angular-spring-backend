@@ -1,7 +1,7 @@
 CREATE TABLE estado (
-	codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+	codigo serial PRIMARY KEY,
 	nome VARCHAR(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 INSERT INTO estado (codigo, nome) VALUES(1, 'Acre');
 INSERT INTO estado (codigo, nome) VALUES(2, 'Alagoas');
@@ -34,11 +34,11 @@ INSERT INTO estado (codigo, nome) VALUES(27, 'Tocantins');
 
 
 CREATE TABLE cidade (
-	codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
-	nome VARCHAR(50) NOT NULL,
-  codigo_estado BIGINT(20) NOT NULL,
+  codigo serial PRIMARY KEY,
+  nome VARCHAR(50) NOT NULL,
+  codigo_estado integer NOT NULL,
   FOREIGN KEY (codigo_estado) REFERENCES estado(codigo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 INSERT INTO cidade (codigo, nome, codigo_estado) VALUES (1, 'Belo Horizonte', 11);
 INSERT INTO cidade (codigo, nome, codigo_estado) VALUES (2, 'Uberlândia', 11);
@@ -54,7 +54,7 @@ INSERT INTO cidade (codigo, nome, codigo_estado) VALUES (9, 'Caldas Novas', 9);
 
 ALTER TABLE pessoa DROP COLUMN cidade;
 ALTER TABLE pessoa DROP COLUMN estado;
-ALTER TABLE pessoa ADD COLUMN codigo_cidade BIGINT(20);
+ALTER TABLE pessoa ADD COLUMN codigo_cidade integer;
 ALTER TABLE pessoa ADD CONSTRAINT fk_pessoa_cidade FOREIGN KEY (codigo_cidade) REFERENCES cidade(codigo);
 
 UPDATE pessoa SET codigo_cidade = 2;

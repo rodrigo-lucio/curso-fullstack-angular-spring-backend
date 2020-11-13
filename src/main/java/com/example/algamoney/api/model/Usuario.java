@@ -13,6 +13,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 @Entity
 @Table(name = "usuario")
 public class Usuario {
@@ -23,6 +27,8 @@ public class Usuario {
 	
 	private String nome;
 	private String email;
+	
+	@JsonProperty(access = Access.WRITE_ONLY)
 	private String senha;
 	
 	private Boolean ativo;
@@ -55,6 +61,7 @@ public class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 
 	public String getSenha() {
 		return senha;

@@ -39,7 +39,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.secret("$2a$10$G1j5Rf8aEEiGc/AET9BA..xRR.qCpOUzBZoJd8ygbGy6tb3jsMT9G")			
 				.scopes("read", "write")														
 				.authorizedGrantTypes("password", "refresh_token")								
-				.accessTokenValiditySeconds(60 * 5) //60										
+				.accessTokenValiditySeconds(86400) //60 - 60 * 5										
 				.refreshTokenValiditySeconds(3600 * 24) 									
 			.and()
 				.withClient("mobile")															// Usuario de exemplo apenas para leitura		

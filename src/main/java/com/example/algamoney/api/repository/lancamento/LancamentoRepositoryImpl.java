@@ -225,7 +225,7 @@ public class LancamentoRepositoryImpl extends Paginacao implements LancamentoRep
 						fim)
 				);
 		
-		criteriaQuery.groupBy(root.get(Lancamento_.tipo), root.get(Lancamento_.dataVencimento));
+		criteriaQuery.groupBy(root.get(Lancamento_.tipo), root.get(Lancamento_.dataVencimento), root.get(Lancamento_.pessoa));
 		
 		TypedQuery<LancamentoEstatisticaPessoa> typedQuery = manager.createQuery(criteriaQuery);
 					

@@ -1,7 +1,7 @@
 CREATE TABLE tipo_permissao (
-  codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT,
+  codigo serial PRIMARY KEY,
   descricao VARCHAR(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 INSERT INTO tipo_permissao (codigo, descricao) VALUES (1, 'Lançamento');
 INSERT INTO tipo_permissao (codigo, descricao) VALUES (2, 'Pessoa');

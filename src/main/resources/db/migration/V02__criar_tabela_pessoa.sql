@@ -1,5 +1,5 @@
 CREATE TABLE pessoa (
-	codigo BIGINT(20) PRIMARY KEY AUTO_INCREMENT, 
+	codigo serial PRIMARY KEY, 
 	nome VARCHAR(50) NOT NULL,
     logradouro VARCHAR(50),
 	numero VARCHAR(10),   
@@ -9,7 +9,7 @@ CREATE TABLE pessoa (
     cidade VARCHAR(20),
     estado VARCHAR(2),
     ativo BOOLEAN NOT NULL	
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;	
+);	
 
 INSERT INTO pessoa (nome,logradouro,numero,complemento,bairro,cep,cidade,estado,ativo) VALUES ('Isaac Mateus Nascimento','Rua Jairo Andrade Macedo',222,'','São Conrado','49042-480','Aracaju','SE',true);
 INSERT INTO pessoa (nome,logradouro,numero,complemento,bairro,cep,cidade,estado,ativo) VALUES ('Simone Yasmin Eduarda das Neves','Rua Seis',845,'','Gurupi','64091-460','Teresina','PI',true);
