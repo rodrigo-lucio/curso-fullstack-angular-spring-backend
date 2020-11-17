@@ -11,14 +11,12 @@ O repositório do front-end você encontra [aqui](https://github.com/rodrigo-luc
 Neste projeto foram utilizadas as seguintes tecnologias:
 
 - [Spring](https://spring.io/)
-- [MySQL](https://www.mysql.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Flyway](https://flywaydb.org/)  
 - [Thymeleaf](https://www.thymeleaf.org/)
 - [JasperReports](https://community.jaspersoft.com/)
 - [Amazon S3](https://aws.amazon.com/pt/s3/)
 - Autenticação OAuth2 utilizando [JWT](https://jwt.io/)
-- Deploy no [Heroku](https://heroku.com/)
-
 
 ## :pencil: IDE
 
