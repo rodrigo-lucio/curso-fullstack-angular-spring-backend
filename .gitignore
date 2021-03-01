@@ -1,0 +1,9 @@
+
+src/main/resources/application-docker.properties
+*.class
+/bin
+/.settings
+/target
+*.project
+*.factorypath
+*.classpath

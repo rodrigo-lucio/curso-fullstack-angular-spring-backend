@@ -26,7 +26,7 @@ Utilizado Spring Tool Suite 4.
 
 Importe o projeto para a sua IDE de preferência.
 
-Tenha o MySQL instalado (Versão utilizada: 8.0.17).
+Tenha o PostgreSQL instalado (Versão utilizada: 13).
 
 Altere as configurações do banco de dados, e-mail e credenciais do S3 no arquivo [`/src/main/resources/application.properties`](https://github.com/rodrigo-lucio/curso-fullstack-angular-spring-backend/blob/master/src/main/resources/application.properties)
 
