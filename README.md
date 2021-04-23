@@ -34,6 +34,10 @@ A estrutura da base de dados e o bucket do S3 serão criados automaticamente.
 
 A API estará rodando em `http://localhost:8080`
 
+## :whale: Utilização com Docker
+
+Caso prefira rodar com Docker, siga as instruções descritas no projeto do [front-end](https://github.com/rodrigo-lucio/curso-fullstack-angular-spring-frontend). 
+
 ## :closed_lock_with_key: Autenticação
 
 Para autenticar, você pode enviar um POST com as seguintes credenciais para receber um token JWT: 
